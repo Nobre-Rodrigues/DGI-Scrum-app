@@ -1,36 +1,30 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
-
-const API_URL = 'http://localhost:5000/api/projects';
-
-const getAuthHeader = () => ({
-  headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-});
+import { api } from '../../services/api';
 
 export const fetchProjects = createAsyncThunk('project/fetchProjects', async (_, { rejectWithValue }) => {
   try {
-    const response = await axios.get(API_URL, getAuthHeader());
+    const response = await api.get('/projects');
     return response.data;
   } catch (error) {
-    return rejectWithValue(error.response.data);
+    return rejectWithValue(error.response?.data || { message: 'Could not load projects' });
   }
 });
 
 export const createProject = createAsyncThunk('project/createProject', async (projectData, { rejectWithValue }) => {
   try {
-    const response = await axios.post(API_URL, projectData, getAuthHeader());
+    const response = await api.post('/projects', projectData);
     return response.data;
   } catch (error) {
-    return rejectWithValue(error.response.data);
+    return rejectWithValue(error.response?.data || { message: 'Could not create project' });
   }
 });
 
 export const updateProject = createAsyncThunk('project/updateProject', async ({ id, ...projectData }, { rejectWithValue }) => {
   try {
-    const response = await axios.put(`${API_URL}/${id}`, projectData, getAuthHeader());
+    const response = await api.put(`/projects/${id}`, projectData);
     return response.data;
   } catch (error) {
-    return rejectWithValue(error.response.data);
+    return rejectWithValue(error.response?.data || { message: 'Could not update project' });
   }
 });
 

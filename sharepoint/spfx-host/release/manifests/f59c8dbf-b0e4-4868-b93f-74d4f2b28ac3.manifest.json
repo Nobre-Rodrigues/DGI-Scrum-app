@@ -1,0 +1,66 @@
+{
+  "id": "f59c8dbf-b0e4-4868-b93f-74d4f2b28ac3",
+  "alias": "ScrumAppHostWebPart",
+  "componentType": "WebPart",
+  "version": "1.0.0",
+  "manifestVersion": 2,
+  "requiresCustomScript": false,
+  "supportedHosts": [
+    "SharePointWebPart",
+    "SharePointFullPage"
+  ],
+  "supportsThemeVariants": false,
+  "preconfiguredEntries": [
+    {
+      "groupId": "5c03119e-3074-46fd-976b-c60198311f70",
+      "group": {
+        "default": "Advanced"
+      },
+      "title": {
+        "default": "Scrum App"
+      },
+      "description": {
+        "default": "Hosts the Scrum application as a SharePoint full-page app."
+      },
+      "officeFabricIconFontName": "Page",
+      "properties": {
+        "appBaseUrl": "",
+        "apiBaseUrl": "",
+        "tokenStorageKey": "scrum-app.sharepoint.token",
+        "userStorageKey": "scrum-app.sharepoint.user",
+        "useHashRouting": true
+      }
+    }
+  ],
+  "loaderConfig": {
+    "internalModuleBaseUrls": [
+      "https://publiccdn.sharepointonline.com/yourtenant/sites/appcatalog/ClientSideAssets"
+    ],
+    "entryModuleId": "scrum-app-host-web-part",
+    "scriptResources": {
+      "scrum-app-host-web-part": {
+        "type": "path",
+        "path": "scrum-app-host-web-part_581a655517cc1a77126f.js"
+      },
+      "@microsoft/sp-core-library": {
+        "type": "component",
+        "id": "7263c7d0-1d6a-45ec-8d85-d4d1d234171b",
+        "version": "1.22.2"
+      },
+      "@microsoft/sp-webpart-base": {
+        "type": "component",
+        "id": "974a7777-0990-4136-8fa6-95d80114c2e0",
+        "version": "1.22.2"
+      },
+      "@microsoft/sp-property-pane": {
+        "type": "component",
+        "id": "f9e737b7-f0df-4597-ba8c-3060f82380db",
+        "version": "1.22.2"
+      },
+      "ScrumAppHostWebPartStrings": {
+        "type": "path",
+        "path": "ScrumAppHostWebPartStrings_en-us_a1482c0c67b98abb2b7068dbeabdaf2d.js"
+      }
+    }
+  }
+}

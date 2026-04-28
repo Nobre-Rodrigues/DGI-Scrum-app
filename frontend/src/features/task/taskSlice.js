@@ -1,36 +1,39 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
-
-const API_URL = 'http://localhost:5000/api/tasks';
-
-const getAuthHeader = () => ({
-  headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-});
+import { api } from '../../services/api';
 
 export const fetchTasks = createAsyncThunk('task/fetchTasks', async (backlogId, { rejectWithValue }) => {
   try {
-    const response = await axios.get(`${API_URL}/backlog/${backlogId}`, getAuthHeader());
+    const response = await api.get(`/tasks/backlog/${backlogId}`);
     return response.data;
   } catch (error) {
-    return rejectWithValue(error.response.data);
+    return rejectWithValue(error.response?.data || { message: 'Could not load tasks' });
+  }
+});
+
+export const fetchProjectTasks = createAsyncThunk('task/fetchProjectTasks', async (projectId, { rejectWithValue }) => {
+  try {
+    const response = await api.get(`/tasks/project/${projectId}`);
+    return response.data;
+  } catch (error) {
+    return rejectWithValue(error.response?.data || { message: 'Could not load project tasks' });
   }
 });
 
 export const createTask = createAsyncThunk('task/createTask', async (taskData, { rejectWithValue }) => {
   try {
-    const response = await axios.post(API_URL, taskData, getAuthHeader());
+    const response = await api.post('/tasks', taskData);
     return response.data;
   } catch (error) {
-    return rejectWithValue(error.response.data);
+    return rejectWithValue(error.response?.data || { message: 'Could not create task' });
   }
 });
 
 export const updateTask = createAsyncThunk('task/updateTask', async ({ id, ...data }, { rejectWithValue }) => {
   try {
-    const response = await axios.put(`${API_URL}/${id}`, data, getAuthHeader());
+    const response = await api.put(`/tasks/${id}`, data);
     return response.data;
   } catch (error) {
-    return rejectWithValue(error.response.data);
+    return rejectWithValue(error.response?.data || { message: 'Could not update task' });
   }
 });
 
@@ -49,9 +52,22 @@ const taskSlice = createSlice({
       })
       .addCase(fetchTasks.fulfilled, (state, action) => {
         state.isLoading = false;
+        const backlogId = action.meta.arg;
+        const remainingTasks = state.tasks.filter((task) => task.backlog_item_id !== Number(backlogId));
+        state.tasks = [...remainingTasks, ...action.payload];
+      })
+      .addCase(fetchProjectTasks.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(fetchProjectTasks.fulfilled, (state, action) => {
+        state.isLoading = false;
         state.tasks = action.payload;
       })
       .addCase(fetchTasks.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      })
+      .addCase(fetchProjectTasks.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
       })

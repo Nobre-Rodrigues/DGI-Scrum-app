@@ -1,0 +1,19 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/config.2.0.schema.json",
+  "version": "2.0",
+  "bundles": {
+    "scrum-app-host-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/scrumAppHost/ScrumAppHostWebPart.js",
+          "manifest": "./src/webparts/scrumAppHost/ScrumAppHostWebPart.manifest.json"
+        }
+      ]
+    }
+  },
+  "externals": {},
+  "localizedResources": {
+    "ScrumAppHostWebPartStrings": "lib/webparts/scrumAppHost/loc/{locale}.js"
+  }
+}
+

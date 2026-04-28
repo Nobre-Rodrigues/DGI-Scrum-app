@@ -6,7 +6,8 @@ import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
-import { Container, Typography } from '@mui/material';
+import { Container, Stack } from '@mui/material';
+import ProjectPageHeader from './ProjectPageHeader';
 
 const Calendar = () => {
   const { id: projectId } = useParams();
@@ -27,20 +28,26 @@ const Calendar = () => {
 
   return (
     <Container maxWidth="lg">
-      <Typography variant="h4" component="h1" gutterBottom>
-        Project Calendar
-      </Typography>
-      <FullCalendar
-        plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
-        initialView="dayGridMonth"
-        headerToolbar={{
-          left: 'prev,next today',
-          center: 'title',
-          right: 'dayGridMonth,timeGridWeek,timeGridDay'
-        }}
-        events={calendarEvents}
-        height="auto"
-      />
+      <Stack spacing={3}>
+        <ProjectPageHeader
+          projectId={projectId}
+          current="calendar"
+          eyebrow="Agenda"
+          titleOverride="Project Calendar"
+          subtitle="Visualize sprints, eventos e marcos do projeto com navegação direta para as restantes áreas."
+        />
+        <FullCalendar
+          plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
+          initialView="dayGridMonth"
+          headerToolbar={{
+            left: 'prev,next today',
+            center: 'title',
+            right: 'dayGridMonth,timeGridWeek,timeGridDay'
+          }}
+          events={calendarEvents}
+          height="auto"
+        />
+      </Stack>
     </Container>
   );
 };

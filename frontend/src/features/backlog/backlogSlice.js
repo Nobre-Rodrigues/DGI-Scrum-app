@@ -1,36 +1,39 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
-
-const API_URL = 'http://localhost:5000/api/backlog';
-
-const getAuthHeader = () => ({
-  headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-});
+import { api } from '../../services/api';
 
 export const fetchBacklogItems = createAsyncThunk('backlog/fetchBacklogItems', async (projectId, { rejectWithValue }) => {
   try {
-    const response = await axios.get(`${API_URL}/project/${projectId}`, getAuthHeader());
+    const response = await api.get(`/backlog/project/${projectId}`);
     return response.data;
   } catch (error) {
-    return rejectWithValue(error.response.data);
+    return rejectWithValue(error.response?.data || { message: 'Could not load backlog items' });
   }
 });
 
 export const createBacklogItem = createAsyncThunk('backlog/createBacklogItem', async (itemData, { rejectWithValue }) => {
   try {
-    const response = await axios.post(API_URL, itemData, getAuthHeader());
+    const response = await api.post('/backlog', itemData);
     return response.data;
   } catch (error) {
-    return rejectWithValue(error.response.data);
+    return rejectWithValue(error.response?.data || { message: 'Could not create backlog item' });
   }
 });
 
 export const updateBacklogItem = createAsyncThunk('backlog/updateBacklogItem', async ({ id, ...data }, { rejectWithValue }) => {
   try {
-    const response = await axios.put(`${API_URL}/${id}`, data, getAuthHeader());
+    const response = await api.put(`/backlog/${id}`, data);
     return response.data;
   } catch (error) {
-    return rejectWithValue(error.response.data);
+    return rejectWithValue(error.response?.data || { message: 'Could not update backlog item' });
+  }
+});
+
+export const assignBacklogItemToSprint = createAsyncThunk('backlog/assignBacklogItemToSprint', async ({ id, sprint_id }, { rejectWithValue }) => {
+  try {
+    const response = await api.put(`/backlog/${id}/sprint`, { sprint_id });
+    return response.data;
+  } catch (error) {
+    return rejectWithValue(error.response?.data || { message: 'Could not assign backlog item to sprint' });
   }
 });
 
@@ -59,6 +62,12 @@ const backlogSlice = createSlice({
         state.items.push(action.payload);
       })
       .addCase(updateBacklogItem.fulfilled, (state, action) => {
+        const index = state.items.findIndex(item => item.id === action.payload.id);
+        if (index !== -1) {
+          state.items[index] = action.payload;
+        }
+      })
+      .addCase(assignBacklogItemToSprint.fulfilled, (state, action) => {
         const index = state.items.findIndex(item => item.id === action.payload.id);
         if (index !== -1) {
           state.items[index] = action.payload;

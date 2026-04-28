@@ -1,8 +1,22 @@
 import { render, screen } from '@testing-library/react';
-import App from './App';
+import TeamPageBanner from './components/team/TeamPageBanner';
 
-test('renders learn react link', () => {
-  render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+test('renders Equipa page title, actions, and user list', () => {
+  render(
+    <TeamPageBanner
+      onDashboardTeam={() => {}}
+      onIntakeTeam={() => {}}
+      onProjectsTeam={() => {}}
+      onCreateUser={() => {}}
+      onCreateAssignment={() => {}}
+      canManageUsers
+      canNominateUser
+    />
+  );
+
+  expect(screen.getByText('Equipa')).toBeInTheDocument();
+  expect(screen.getByRole('button', { name: /Adicionar utilizador/i })).toBeInTheDocument();
+  expect(screen.getByRole('button', { name: /Nova nomeação/i })).toBeInTheDocument();
+  expect(screen.getByText('Dashboard > Equipa')).toBeInTheDocument();
+  expect(screen.getByText('Business Intake > Equipa')).toBeInTheDocument();
 });

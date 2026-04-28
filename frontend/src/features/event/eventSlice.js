@@ -1,18 +1,12 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
-
-const API_URL = 'http://localhost:5000/api/events';
-
-const getAuthHeader = () => ({
-  headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-});
+import { api } from '../../services/api';
 
 export const fetchEvents = createAsyncThunk('event/fetchEvents', async (projectId, { rejectWithValue }) => {
   try {
-    const response = await axios.get(`${API_URL}/project/${projectId}`, getAuthHeader());
+    const response = await api.get(`/events/project/${projectId}`);
     return response.data;
   } catch (error) {
-    return rejectWithValue(error.response.data);
+    return rejectWithValue(error.response?.data || { message: 'Could not load events' });
   }
 });
 

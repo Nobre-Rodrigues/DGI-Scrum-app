@@ -2,9 +2,8 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchProjects } from '../features/project/projectSlice';
 import { fetchDashboardData } from '../features/dashboard/dashboardSlice';
-import { logout } from '../features/auth/authSlice';
 import { useNavigate } from 'react-router-dom';
-import { Container, Typography, Button, Grid, Card, CardContent, List, ListItem, ListItemText } from '@mui/material';
+import { Container, Typography, Grid, Card, CardContent, List, ListItem, ListItemText, Button, Stack } from '@mui/material';
 import { Bar } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, LineElement, PointElement, Title, Tooltip, Legend } from 'chart.js';
 
@@ -28,11 +27,6 @@ const Dashboard = () => {
     }
   }, [dispatch, user, currentProject, navigate]);
 
-  const handleLogout = () => {
-    dispatch(logout());
-    navigate('/login');
-  };
-
   if (!user) return null;
 
   const velocityData = {
@@ -54,16 +48,20 @@ const Dashboard = () => {
   };
 
   return (
-    <Container maxWidth="lg">
-      <Typography variant="h4" component="h1" gutterBottom>
-        Dashboard
-      </Typography>
-      <Button variant="outlined" onClick={handleLogout}>Logout</Button>
+    <Container maxWidth="lg" sx={{ mt: 3 }}>
+      <Stack direction={{ xs: 'column', md: 'row' }} justifyContent="space-between" alignItems={{ xs: 'flex-start', md: 'center' }} spacing={2} mb={3}>
+        <Typography variant="h4" component="h1">
+          Dashboard
+        </Typography>
+        <Button variant="outlined" onClick={() => navigate('/team')}>
+          Equipa
+        </Button>
+      </Stack>
       <Grid container spacing={3}>
         <Grid item xs={12} md={6}>
           <Card>
             <CardContent>
-              <Typography variant="h6">Projects</Typography>
+              <Typography variant="h6">Projetos</Typography>
               <List>
                 {projects.map(project => (
                   <ListItem key={project.id} button onClick={() => navigate(`/projects/${project.id}`)}>

@@ -1,0 +1,43 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
+  "solution": {
+    "name": "scrum-app-spfx-host-client-side-solution",
+    "id": "60ff4f30-1348-4d29-8854-52ee0b543c3d",
+    "version": "1.0.0.0",
+    "includeClientSideAssets": true,
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "developer": {
+      "name": "Organization Intranet",
+      "websiteUrl": "https://example.com",
+      "privacyUrl": "https://example.com/privacy",
+      "termsOfUseUrl": "https://example.com/terms",
+      "mpnId": "Undefined-1.22.2"
+    },
+    "metadata": {
+      "shortDescription": {
+        "default": "SPFx full-page host for the Scrum application"
+      },
+      "longDescription": {
+        "default": "Hosts the published Scrum frontend build inside SharePoint as a full-page SPFx app."
+      },
+      "screenshotPaths": [],
+      "videoUrl": "",
+      "categories": [
+        "Productivity"
+      ]
+    },
+    "features": [
+      {
+        "title": "Scrum app SPFx host feature",
+        "description": "Deploys the SPFx host web part for the Scrum application.",
+        "id": "38111e62-d2ec-4ed1-822d-89fb9d8d7ab2",
+        "version": "1.0.0.0"
+      }
+    ]
+  },
+  "paths": {
+    "zippedPackage": "solution/scrum-app-spfx-host.sppkg"
+  }
+}
+

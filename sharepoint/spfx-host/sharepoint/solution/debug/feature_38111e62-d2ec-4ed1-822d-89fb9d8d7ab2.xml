@@ -1,0 +1,1 @@
+<?xml version="1.0" encoding="utf-8"?><Feature xmlns="http://schemas.microsoft.com/sharepoint/" Title="Scrum app SPFx host feature" Description="Deploys the SPFx host web part for the Scrum application." Id="38111e62-d2ec-4ed1-822d-89fb9d8d7ab2" Version="1.0.0.0" Scope="Web" Hidden="FALSE"></Feature>

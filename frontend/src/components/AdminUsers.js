@@ -4,7 +4,7 @@ import { fetchUsers, updateUser, deleteUser } from '../features/user/userSlice';
 import { Container, Typography, Table, TableHead, TableRow, TableCell, TableBody, Select, MenuItem, IconButton, Snackbar, Alert } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 
-const roles = ['Product Owner', 'Scrum Master', 'Development Team Member', 'Stakeholder'];
+const roles = ['Product Owner', 'Scrum Master', 'Development Team Member', 'Stakeholder', 'Director'];
 
 const AdminUsers = () => {
   const dispatch = useDispatch();

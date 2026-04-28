@@ -1,0 +1,11 @@
+{
+  "@microsoft/generator-sharepoint": {
+    "version": "1.22.2",
+    "libraryName": "scrum-app-spfx-host",
+    "libraryId": "60ff4f30-1348-4d29-8854-52ee0b543c3d",
+    "environment": "spo",
+    "packageManager": "npm",
+    "componentType": "webpart"
+  }
+}
+

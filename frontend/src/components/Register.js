@@ -103,6 +103,7 @@ const Register = () => {
           <MenuItem value="Scrum Master">Scrum Master</MenuItem>
           <MenuItem value="Development Team Member">Development Team Member</MenuItem>
           <MenuItem value="Stakeholder">Stakeholder</MenuItem>
+          <MenuItem value="Director">Director</MenuItem>
         </TextField>
 
         <Button

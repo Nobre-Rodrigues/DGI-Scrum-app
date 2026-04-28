@@ -1,38 +1,38 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
-
-const API_URL = 'http://localhost:5000/api/auth';
+import { api } from '../../services/api';
+import { authStorage } from '../../services/authStorage';
 
 export const login = createAsyncThunk('auth/login', async ({ email, password }, { rejectWithValue }) => {
   try {
-    const response = await axios.post(`${API_URL}/login`, { email, password });
-    localStorage.setItem('token', response.data.token);
+    const response = await api.post('/auth/login', { email, password });
+    authStorage.setToken(response.data.token);
+    authStorage.setUser(response.data.user);
     return response.data;
   } catch (error) {
-    return rejectWithValue(error.response.data);
+    return rejectWithValue(error.response?.data || { message: 'Login failed' });
   }
 });
 
 export const register = createAsyncThunk('auth/register', async (userData, { rejectWithValue }) => {
   try {
-    const response = await axios.post(`${API_URL}/register`, userData);
+    const response = await api.post('/auth/register', userData);
     return response.data;
   } catch (error) {
-    return rejectWithValue(error.response.data);
+    return rejectWithValue(error.response?.data || { message: 'Registration failed' });
   }
 });
 
 const authSlice = createSlice({
   name: 'auth',
   initialState: {
-    user: null,
-    token: localStorage.getItem('token'),
+    user: authStorage.getUser(),
+    token: authStorage.getToken(),
     isLoading: false,
     error: null,
   },
   reducers: {
     logout: (state) => {
-      localStorage.removeItem('token');
+      authStorage.clearSession();
       state.user = null;
       state.token = null;
     },
